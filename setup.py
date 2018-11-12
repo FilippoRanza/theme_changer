@@ -17,8 +17,10 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
+import sys
 from setuptools import setup
+# you can't install with python2
+assert sys.version_info.major == 3, 'theme_changer.py needs python3'
 
 setup(
     name='theme_changer',

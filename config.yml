@@ -1,0 +1,32 @@
+# season can have any name
+xmas:
+  # dates are written in date-month format
+  from: 8-12
+  to: 8-1
+  # path can be relative
+  dir: 'xmas'
+
+halloween:
+  from: 27-10
+  to: 2-11
+  # path can be absolute
+  dir: '/home/user/pictures/halloween_wallpapers'
+
+italian_national_day:
+  #season can least just one day
+  from: 2-6
+  to: 2-6
+  dir: '/home/mario/italian_wallpapers'
+
+
+default:
+  # default season does not contain any 'from' or 'to'
+  dir: 'default'
+
+# NOTE:
+# Special period, like easter or ramadan, because they change each year, are not supported.
+
+# NOTE 2:
+# directory name in 'dir' clause in this example are always somehow connected to the season name.
+# of course this is not required.
+
