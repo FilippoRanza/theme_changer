@@ -2,17 +2,17 @@
 # 'theme_changer'.
 # It is here just to test the installation script.
 
-FROM Ubuntu
+FROM ubuntu
 
 RUN ["apt", "update"]
-RUN ["apt", "upgrade"]
+RUN ["apt", "upgrade", "-y"]
 
-RUN ["apt", "install", "python3"]
-RUN ["apt", "install", "python3-setuptools"]
-RUN ["apt", "install", "git"]
+RUN ["apt", "install", "python3", "-y"]
+RUN ["apt", "install", "python3-setuptools", "-y"]
+RUN ["apt", "install", "git", "-y"]
 
 RUN ["git", "clone", "https://github.com/FilippoRanza/theme_changer.git"]
-RUN ["cd", "theme_changer"]
+WORKDIR "theme_changer"
 RUN ["python3", "setup.py", "install"]
 
 RUN ["which", "theme_changer.py"]

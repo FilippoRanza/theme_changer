@@ -30,8 +30,8 @@ setup(
     author_email='',
     description='automatically change wallpaper folder on KDE desktop',
     scripts=['theme_changer.py'],
-    install_requests=[
+    install_requires=[
         'pyyaml'
-    ]
+        ]
 
 )
