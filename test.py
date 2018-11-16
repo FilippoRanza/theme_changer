@@ -23,8 +23,9 @@ def test_installation():
     try:
         a = call(name)
     except FileNotFoundError:
-        a = 1
+        a = -1
     except PermissionError:
-        a = 1
-    assert a == 0
+        a = -1
+    # script execution will fail: the system is not configured
+    assert a != -1
 
