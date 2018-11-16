@@ -212,7 +212,7 @@ def run_theme_changer():
     """
     log = syslog
     if not check_env(log):
-        sys.exit(1)
+        sys.exit(2)
 
     config = load_config()
     if check_config(config, log):
