@@ -26,10 +26,10 @@ setup(
     name='theme_changer',
     version='0.1',
     packages=[''],
-    url='https://github.com/FilippoRanza',
+    url='https://github.com/FilippoRanza/theme_changer',
     license='GNU General Public License v3.0',
-    author='filippo ',
-    author_email='',
+    author='Filippo Ranza',
+    author_email='filipporanza@gmail.com',
     description='automatically change wallpaper folder on KDE desktop',
     scripts=['theme_changer.py'],
     install_requires=[
