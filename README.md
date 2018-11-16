@@ -1,4 +1,4 @@
-# theme_changer.py
+# theme_changer.py [![Build Status](https://travis-ci.com/FilippoRanza/theme_changer.svg?branch=master)](https://travis-ci.com/FilippoRanza/theme_changer)
 Automatically change your wallpaper folder on KDE desktop 
 
 
