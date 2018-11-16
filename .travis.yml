@@ -9,5 +9,5 @@ install:
   - python setup.py install
 
  script:
-   - theme_changer.py
+   - pytest.py
 
