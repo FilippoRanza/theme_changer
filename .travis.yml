@@ -6,6 +6,9 @@ python:
 install:
   - python setup.py install
 
- script:
-   - pytest.py
+before_script:
+  - sudo apt-get install -yqq python3-pytest
+
+script:
+- pytest
 
