@@ -5,8 +5,10 @@ Automatically change your wallpaper folder on KDE desktop
 ## Installation
 To install this script you have to run, with root privileges, 
 *setup.py install* using python3.
-
-    [sudo] python[3] setup.py install
+```commandline
+[sudo] python[3] setup.py install
+```
+    
 
 ### Requirements:
     Python 3
@@ -25,11 +27,11 @@ your current wallpaper directory
 5. Configure KDE to use *~/.wallpapers/current* as wallpaper location
 6. Configure your desktop to autorun *theme_changer.py* at startup. No commands line arguments 
 are needed. For example:
-    
-    
-
+```commandline
     cd ~/.config/autostart-scripts 
     ln -s $(which theme_changer.py) theme_changer 
+``` 
+
 
 
 #### Dynamic Reconfiguration:
