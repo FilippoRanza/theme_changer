@@ -27,8 +27,10 @@ your current wallpaper directory
 are needed. For example:
     
     
+
     cd ~/.config/autostart-scripts 
     ln -s $(which theme_changer.py) theme_changer 
+
 
 #### Dynamic Reconfiguration:
 You can add and remove all season that you want any time you want but before it takes effect you must
