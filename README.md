@@ -8,7 +8,6 @@ To install this script you have to run, with root privileges,
 
     [sudo] python[3] setup.py install
 
-
 ### Requirements:
     Python 3
     PyYAML 
@@ -25,7 +24,11 @@ You can place your wallpaper collection here or anywhere else.
 your current wallpaper directory
 5. Configure KDE to use *~/.wallpapers/current* as wallpaper location
 6. Configure your desktop to autorun *theme_changer.py* at startup. No commands line arguments 
-are needed.
+are needed. For example:
+    
+    
+    cd ~/.config/autostart-scripts 
+    ln -s $(which theme_changer.py) theme_changer 
 
 #### Dynamic Reconfiguration:
 You can add and remove all season that you want any time you want but before it takes effect you must
