@@ -2,8 +2,13 @@
 
 import os
 from subprocess import call
+from theme_changer import Config
+
 
 name = 'theme_changer.py'
+
+days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+assert sum(days) == 365
 
 
 def exist():
@@ -18,6 +23,27 @@ def exist():
     return False
 
 
+def date_to_str(d):
+    return "%d-%d" % d
+
+
+def date_generator():
+    for i, m in enumerate(range(1, 13)):
+        for d in range(1, days[i]+1):
+            yield (d, m), date_to_str((d, m))
+
+
+def before(a, b):
+    return a[1] < b[1] or (a[1] == b[1] and a[0] < b[0])
+
+
+def config_generator():
+    for f, fs in date_generator():
+        for t, ts in date_generator():
+            conf = {'from': fs, 'to': ts, 'dir': ''}
+            yield (f, t, conf)
+
+
 def test_installation():
     assert exist()
     try:
@@ -29,3 +55,15 @@ def test_installation():
     # script execution will fail: the system is not configured
     assert a != -1
 
+
+def test_date_parser():
+    for f, t, c in config_generator():
+        conf = Config(c)
+        if f != t:
+            assert conf.f < conf.t
+            if before(f, t):
+                assert conf.f.year == conf.t.year
+            else:
+                assert (conf.f.year + 1) == conf.t.year
+        else:
+            assert conf.f == conf.t
