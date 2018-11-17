@@ -56,9 +56,9 @@ class Config:
         """
         y = datetime.now().year
         if self.t < self.f:
-            self.t = self.f.replace(year=y + 1)
+            self.t = self.t.replace(year=y + 1)
         else:
-            self.t = self.f.replace(year=y + 1)
+            self.t = self.t.replace(year=y)
         self.f = self.f.replace(year=y)
 
 
