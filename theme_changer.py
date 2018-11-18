@@ -188,7 +188,7 @@ def init_argparser():
     """
     configure the argument parser
     """
-    out = ArgumentParser()
+    out = ArgumentParser(description=' Automatically change your wallpaper folder on KDE desktop')
     out.add_argument('-c', '--check', help='check configuration file, without run the theme changer',
                      default=False, action='store_true')
 
