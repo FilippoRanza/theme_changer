@@ -1,5 +1,5 @@
 #! /usr/bin/python
-
+from datetime import datetime
 import os
 from subprocess import call
 from theme_changer import Config
@@ -57,6 +57,7 @@ def test_installation():
 
 
 def test_date_parser():
+    today = datetime.now()
     for f, t, c in config_generator():
         conf = Config(c)
         if f != t:
@@ -65,5 +66,13 @@ def test_date_parser():
                 assert conf.f.year == conf.t.year
             else:
                 assert (conf.f.year + 1) == conf.t.year
+                tmp = Config.make_date(c['from'])
+                if today < tmp:
+                    assert conf.f.year == (today.year - 1)
+                    assert conf.t.year == today.year
+                else:
+                    assert conf.f.year == today.year
+                    assert conf.t.year == (today.year + 1)
+
         else:
             assert conf.f == conf.t

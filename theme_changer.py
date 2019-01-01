@@ -35,7 +35,12 @@ DEF_WALLPAPER_LINK = 'current'
 
 # configuration file keywords
 KEY_WORDS = ['from', 'to', 'dir']
-date_re = re.compile('\d?\d-\d?\d')
+date_re = re.compile(r'\d?\d-\d?\d')
+
+
+# Current date and year
+TODAY = datetime.now()
+YEAR = TODAY.year
 
 
 class Config:
@@ -44,22 +49,30 @@ class Config:
     in a ready to used format
     """
     def __init__(self, conf):
-        self.f = datetime.strptime(conf['from'], '%d-%m')
-        self.t = datetime.strptime(conf['to'], '%d-%m')
+        self.f = Config.make_date(conf['from'])
+        self.t = Config.make_date(conf['to'])
         self.d = conf['dir']
         self._set_year_()
+
+    @staticmethod
+    def make_date(date):
+        out = datetime.strptime(date, '%d-%m')
+        return out.replace(year=YEAR)
 
     def _set_year_(self):
         """
         set the correct year to
         each date.
         """
-        y = datetime.now().year
+        # if 'to' is previous then 'from',
+        # those dates are not in the same year
         if self.t < self.f:
-            self.t = self.t.replace(year=y + 1)
-        else:
-            self.t = self.t.replace(year=y)
-        self.f = self.f.replace(year=y)
+            # if 'from' is in the future, it must be relative to the past year
+            if TODAY < self.f:
+                self.f = self.f.replace(year=YEAR - 1)
+            # otherwise 'to' is in the future
+            else:
+                self.t = self.t.replace(year=YEAR + 1)
 
 
 def load_config():
@@ -139,11 +152,10 @@ def run_config(conf):
     """
     find the current theme
     """
-    today = datetime.today()
     parse = parse_config(conf)
     for k, v in parse.items():
         if k != 'default':
-            if v.f <= today <= v.t:
+            if v.f <= TODAY <= v.t:
                 p = path.abspath(v.d)
                 t = k
                 break
