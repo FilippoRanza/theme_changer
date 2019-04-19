@@ -1,5 +1,4 @@
-# theme_changer.py [![Build Status](https://travis-ci.com/FilippoRanza/theme_changer.svg?branch=master)](https://travis-ci.com/FilippoRanza/theme_changer)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/FilippoRanza/theme_changer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/FilippoRanza/theme_changer/alerts/)
+# theme_changer.py [![Build Status](https://travis-ci.com/FilippoRanza/theme_changer.svg?branch=master)](https://travis-ci.com/FilippoRanza/theme_changer) [![Total alerts](https://img.shields.io/lgtm/alerts/g/FilippoRanza/theme_changer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/FilippoRanza/theme_changer/alerts/) [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/FilippoRanza/theme_changer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/FilippoRanza/theme_changer/context:python)
 Automatically change your wallpaper folder on KDE desktop 
 
 
