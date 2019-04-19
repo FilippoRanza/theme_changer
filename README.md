@@ -1,22 +1,20 @@
 # theme_changer.py [![Build Status](https://travis-ci.com/FilippoRanza/theme_changer.svg?branch=master)](https://travis-ci.com/FilippoRanza/theme_changer) [![Total alerts](https://img.shields.io/lgtm/alerts/g/FilippoRanza/theme_changer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/FilippoRanza/theme_changer/alerts/) [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/FilippoRanza/theme_changer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/FilippoRanza/theme_changer/context:python)
 Automatically change your wallpaper folder on KDE desktop 
 
-
 ## Installation
 To install this script you have to run, with root privileges, 
 *setup.py install* using python3.
 ```commandline
 [sudo] python[3] setup.py install
 ```
-    
 
-### Requirements:
+### Requirements
     Python 3
     PyYAML 
 
 All those requirements are checked and satisfied  by setup.py
 
-### Configuration:
+### Configuration
 In order to work properly *theme_changer.py* need a correct configuration
 1. Create a directory named *'.wallpapers'* in your home directory. 
 You can place your wallpaper collection here or anywhere else.
@@ -32,14 +30,12 @@ are needed. For example:
     ln -s $(which theme_changer.py) theme_changer 
 ``` 
 
-
-
-#### Dynamic Reconfiguration:
+#### Dynamic Reconfiguration
 You can add and remove all season that you want any time you want but before it takes effect you must
 logout and login to force Plasma to restart. If you run the script during the desktop execution it
 will break the softlink and crash the slideshow, if this happens you just have to restart KDE(logout-login).
 
-#### Season Configuration:
+#### Season Configuration
 A *season* is a YAML entry. It have any kind of fantasy name(but NOT 'default')
  and *must* be unique. Inside each season must be present those three entries:
  1. from *day-month* : defines when a season starts
@@ -53,5 +49,3 @@ Default season has just one entry:
 1. dir *path*: define *~/.wallpapers/current* when none of the other season matches.
 
 Read 'config.yml' for an example configuration.
-
-
