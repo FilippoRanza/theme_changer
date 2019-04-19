@@ -1,4 +1,4 @@
-# theme_changer.py [![Build Status](https://travis-ci.com/FilippoRanza/theme_changer.svg?branch=master)](https://travis-ci.com/FilippoRanza/theme_changer)
+# theme_changer.py [![Build Status](https://travis-ci.com/FilippoRanza/theme_changer.svg?branch=master)](https://travis-ci.com/FilippoRanza/theme_changer) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/96282d261bc9457398f568e4d18aff85)](https://www.codacy.com/app/FilippoRanza/theme_changer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=FilippoRanza/theme_changer&amp;utm_campaign=Badge_Grade)
 Automatically change your wallpaper folder on KDE desktop 
 
 ## Installation
@@ -9,9 +9,10 @@ To install this script you have to run, with root privileges,
 ```
 
 ### Requirements
-'consistent'
+```commandline
     Python 3
     PyYAML 
+```
 
 All those requirements are checked and satisfied  by setup.py
 
