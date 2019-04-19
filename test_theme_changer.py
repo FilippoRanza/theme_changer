@@ -1,12 +1,14 @@
 #! /usr/bin/python
 
 import os
+from os.path import isdir, isfile
 
+from shutil import copyfile
 
 from random import randint, choices, random
 from string import ascii_letters
 
-from theme_changer import Config, check_config, load_config
+from theme_changer import Config, check_config, load_config, DEF_CONF_FILE, DEF_CONF_DIR
 
 
 DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -114,6 +116,13 @@ def test_check_config():
 
 
 def test_load_config():
+
+    if not isdir(DEF_CONF_DIR):
+        os.mkdir(DEF_CONF_DIR)
+    
+    if not isfile(DEF_CONF_FILE):
+        copyfile('config.yml', DEF_CONF_FILE)
+
     try:
        conf = load_config()
     except:
