@@ -17,14 +17,16 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import sys
+"""
+theme_changer - install script
+"""
+
 from setuptools import setup
-# you can't install with python2
-assert sys.version_info.major == 3, 'theme_changer.py needs python3'
+
 
 setup(
     name='theme_changer',
-    version='0.1',
+    version='0.1.1',
     packages=[''],
     url='https://github.com/FilippoRanza/theme_changer',
     license='GNU General Public License v3.0',
