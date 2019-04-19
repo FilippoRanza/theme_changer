@@ -9,7 +9,7 @@ To install this script you have to run, with root privileges,
 ```
 
 ### Requirements
-    'consistent'
+'consistent'
     Python 3
     PyYAML 
 
