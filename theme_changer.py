@@ -18,6 +18,7 @@
 """
 Automatically change your wallpaper folder on KDE desktop
 """
+
 from os import symlink, readlink, remove, chdir
 from os.path import join, isdir, abspath, exists, isfile
 
@@ -34,7 +35,6 @@ import yaml
 
 
 # define working directory and configuration file
-# ignore IDE warning, this works perfectly
 DEF_CONF_DIR = join(Path.home(), '.wallpaper')
 DEF_CONF_FILE = join(DEF_CONF_DIR, 'config.yml')
 DEF_WALLPAPER_LINK = 'current'
