@@ -18,9 +18,8 @@
 """
 Automatically change your wallpaper folder on KDE desktop
 """
-
-import os
-from os import path
+from os import symlink, readlink, remove, chdir
+from os.path import join, isdir, abspath, exists, isfile
 
 import sys
 from argparse import ArgumentParser
@@ -36,8 +35,8 @@ import yaml
 
 # define working directory and configuration file
 # ignore IDE warning, this works perfectly
-DEF_CONF_DIR = path.join(Path.home(), '.wallpaper')
-DEF_CONF_FILE = path.join(DEF_CONF_DIR, 'config.yml')
+DEF_CONF_DIR = join(Path.home(), '.wallpaper')
+DEF_CONF_FILE = join(DEF_CONF_DIR, 'config.yml')
 DEF_WALLPAPER_LINK = 'current'
 
 # configuration file keywords
@@ -109,7 +108,7 @@ def check_season(conf, log):
             return False
 
         if key == 'dir':
-            if not path.isdir(value):
+            if not isdir(value):
                 log('%s is not a directory' % value)
                 return False
         else:
@@ -161,7 +160,7 @@ def run_config(conf):
     for key, value in parse.items():
         if key != 'default':
             if value.inside_range(today):
-                folder = path.abspath(value.d)
+                folder = abspath(value.d)
                 theme = key
                 break
     else:
@@ -175,14 +174,14 @@ def change_theme(folder, theme, log):
     """
     change the soft link's target
     """
-    if not path.exists(DEF_WALLPAPER_LINK):
-        os.symlink(folder, DEF_WALLPAPER_LINK)
+    if not exists(DEF_WALLPAPER_LINK):
+        symlink(folder, DEF_WALLPAPER_LINK)
         log('Create %s' % DEF_WALLPAPER_LINK)
     else:
-        curr = os.readlink(DEF_WALLPAPER_LINK)
+        curr = readlink(DEF_WALLPAPER_LINK)
         if curr != folder:
-            os.remove(DEF_WALLPAPER_LINK)
-            os.symlink(folder, DEF_WALLPAPER_LINK)
+            remove(DEF_WALLPAPER_LINK)
+            symlink(folder, DEF_WALLPAPER_LINK)
             log('Change theme to %s' % theme)
 
 
@@ -191,12 +190,12 @@ def check_env(log):
     check that the file system have the
     correct files
     """
-    if not path.isdir(DEF_CONF_DIR):
+    if not isdir(DEF_CONF_DIR):
         log('missing configuration directory [%s]' % DEF_CONF_DIR)
-    elif not path.isfile(DEF_CONF_FILE):
+    elif not isfile(DEF_CONF_FILE):
         log('missing configuration file [%s]' % DEF_CONF_FILE)
     else:
-        os.chdir(DEF_CONF_DIR)
+        chdir(DEF_CONF_DIR)
         return True
     return False
 
