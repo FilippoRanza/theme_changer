@@ -69,17 +69,17 @@ def make_correct_rand_season():
 
 def make_wrong_rand_season():
     conf = {}
-    if random() < 0.9:
+    if random() < 0.5:
         conf['from'] = rand_date() 
     else:
         conf['from'] = rand_str() 
 
-    if random() < 0.9:
+    if random() < 0.5:
         conf['to'] = rand_date() 
     else:
         conf['to'] = rand_str() 
 
-    if random() < 0.9:
+    if random() < 0.5:
         conf['dir'] = os.getcwd()
     else:
         conf['dir'] = rand_str() 

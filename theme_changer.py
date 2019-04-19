@@ -42,16 +42,7 @@ DEF_WALLPAPER_LINK = 'current'
 
 # configuration file keywords
 KEY_WORDS = ['from', 'to', 'dir']
-<<<<<<< HEAD
 DATE_RE = re.compile(r'\d?\d-\d?\d')
-=======
-date_re = re.compile(r'\d?\d-\d?\d')
-
-
-# Current date and year
-TODAY = datetime.now()
-YEAR = TODAY.year
->>>>>>> 05ee2036ed68b9967962801f16668e6aca3f2e62
 
 
 class Config:
@@ -60,28 +51,18 @@ class Config:
     in a ready to used format
     """
     def __init__(self, conf):
-<<<<<<< HEAD
         self.start_date = datetime.strptime(conf['from'], r'%d-%m')
         self.end_date = datetime.strptime(conf['to'], r'%d-%m')
         self.directory = conf['dir']
-=======
-        self.f = Config.make_date(conf['from'])
-        self.t = Config.make_date(conf['to'])
-        self.d = conf['dir']
->>>>>>> 05ee2036ed68b9967962801f16668e6aca3f2e62
         self._set_year_()
 
-    @staticmethod
-    def make_date(date):
-        out = datetime.strptime(date, '%d-%m')
-        return out.replace(year=YEAR)
+
 
     def _set_year_(self):
         """
         set the correct year to
         each date.
         """
-<<<<<<< HEAD
         year = datetime.now().year
         if self.end_date < self.start_date:
             self.end_date = self.end_date.replace(year=year + 1)
@@ -95,17 +76,6 @@ class Config:
         range
         """
         return self.start_date <= date <= self.end_date
-=======
-        # if 'to' is previous then 'from',
-        # those dates are not in the same year
-        if self.t < self.f:
-            # if 'from' is in the future, it must be relative to the past year
-            if TODAY < self.f:
-                self.f = self.f.replace(year=YEAR - 1)
-            # otherwise 'to' is in the future
-            else:
-                self.t = self.t.replace(year=YEAR + 1)
->>>>>>> 05ee2036ed68b9967962801f16668e6aca3f2e62
 
 
 def load_config():
@@ -186,20 +156,13 @@ def run_config(conf):
     """
     find the current theme
     """
+    today = datetime.now()
     parse = parse_config(conf)
-<<<<<<< HEAD
     for key, value in parse.items():
         if key != 'default':
             if value.inside_range(today):
                 folder = path.abspath(value.d)
                 theme = key
-=======
-    for k, v in parse.items():
-        if k != 'default':
-            if v.f <= TODAY <= v.t:
-                p = path.abspath(v.d)
-                t = k
->>>>>>> 05ee2036ed68b9967962801f16668e6aca3f2e62
                 break
     else:
         theme = 'default'
