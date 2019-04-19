@@ -15,16 +15,25 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+"""
+Automatically change your wallpaper folder on KDE desktop
+"""
 
-import yaml
+
+
 import os
-from datetime import datetime
 from os import path
-import re
-from syslog import syslog
+
 import sys
 from argparse import ArgumentParser
+
+from datetime import datetime
+import re
+
+from syslog import syslog
 from pathlib import Path
+
+import yaml
 
 
 # define working directory and configuration file
@@ -35,7 +44,7 @@ DEF_WALLPAPER_LINK = 'current'
 
 # configuration file keywords
 KEY_WORDS = ['from', 'to', 'dir']
-date_re = re.compile('\d?\d-\d?\d')
+DATE_RE = re.compile(r'\d?\d-\d?\d')
 
 
 class Config:
@@ -44,9 +53,9 @@ class Config:
     in a ready to used format
     """
     def __init__(self, conf):
-        self.f = datetime.strptime(conf['from'], '%d-%m')
-        self.t = datetime.strptime(conf['to'], '%d-%m')
-        self.d = conf['dir']
+        self.start_date = datetime.strptime(conf['from'], r'%d-%m')
+        self.end_date = datetime.strptime(conf['to'], r'%d-%m')
+        self.directory = conf['dir']
         self._set_year_()
 
     def _set_year_(self):
@@ -54,20 +63,27 @@ class Config:
         set the correct year to
         each date.
         """
-        y = datetime.now().year
-        if self.t < self.f:
-            self.t = self.t.replace(year=y + 1)
+        year = datetime.now().year
+        if self.end_date < self.start_date:
+            self.end_date = self.end_date.replace(year=year + 1)
         else:
-            self.t = self.t.replace(year=y)
-        self.f = self.f.replace(year=y)
+            self.end_date = self.end_date.replace(year=year)
+        self.start_date = self.start_date.replace(year=year)
+
+    def inside_range(self, date):
+        """
+        check the given date is inside [start_date, end_date]
+        range
+        """
+        return self.start_date <= date <= self.end_date
 
 
 def load_config():
     """
     read and parse 'config.yml'
     """
-    with open(DEF_CONF_FILE) as f:
-        out = yaml.load(f)
+    with open(DEF_CONF_FILE) as file:
+        out = yaml.safe_load(file)
     return out
 
 
@@ -86,19 +102,20 @@ def check_season(conf, log):
     """
     if len(conf) != 3:
         return False
-    for k, v in conf.items():
-        if k not in KEY_WORDS:
-            log('%s is an unknown keyword' % k)
+
+    for key, value in conf.items():
+        if key not in KEY_WORDS:
+            log('%s is an unknown keyword' % key)
             return False
+
+        if key == 'dir':
+            if not path.isdir(value):
+                log('%s is not a directory' % value)
+                return False
         else:
-            if k == 'dir':
-                if not path.isdir(v):
-                    log('%s is not a directory' % v)
-                    return False
-            else:
-                if not date_re.fullmatch(v):
-                    log('%s does not match the day-month pattern' % v)
-                    return False
+            if not DATE_RE.fullmatch(value):
+                log('%s does not match the day-month pattern' % value)
+                return False
 
     return True
 
@@ -112,12 +129,12 @@ def check_config(conf, log):
         log('config.yml must have a "default" section')
         return False
 
-    for k, v in conf.items():
-        if k == 'default':
-            s = check_default(v)
+    for key, value in conf.items():
+        if key == 'default':
+            status = check_default(value)
         else:
-            s = check_season(v, log)
-        if not s:
+            status = check_season(value, log)
+        if not status:
             return False
     return True
 
@@ -127,11 +144,11 @@ def parse_config(conf):
     extract information from the configuration
     """
     out = {}
-    for k, v in conf.items():
-        if k != 'default':
-            out[k] = Config(v)
+    for key, value in conf.items():
+        if key != 'default':
+            out[key] = Config(value)
         else:
-            out[k] = v['dir']
+            out[key] = value['dir']
     return out
 
 
@@ -141,32 +158,32 @@ def run_config(conf):
     """
     today = datetime.today()
     parse = parse_config(conf)
-    for k, v in parse.items():
-        if k != 'default':
-            if v.f <= today <= v.t:
-                p = path.abspath(v.d)
-                t = k
+    for key, value in parse.items():
+        if key != 'default':
+            if value.inside_range(today):
+                folder = path.abspath(value.d)
+                theme = key
                 break
     else:
-        t = 'default'
-        p = parse[t]
+        theme = 'default'
+        folder = parse[theme]
 
-    return p, t
+    return folder, theme
 
 
-def change_theme(p, t, log):
+def change_theme(folder, theme, log):
     """
     change the soft link's target
     """
     if not path.exists(DEF_WALLPAPER_LINK):
-        os.symlink(p, DEF_WALLPAPER_LINK)
+        os.symlink(folder, DEF_WALLPAPER_LINK)
         log('Create %s' % DEF_WALLPAPER_LINK)
     else:
         curr = os.readlink(DEF_WALLPAPER_LINK)
-        if curr != p:
+        if curr != folder:
             os.remove(DEF_WALLPAPER_LINK)
-            os.symlink(p, DEF_WALLPAPER_LINK)
-            log('Change theme to %s' % t)
+            os.symlink(folder, DEF_WALLPAPER_LINK)
+            log('Change theme to %s' % theme)
 
 
 def check_env(log):
@@ -188,9 +205,16 @@ def init_argparser():
     """
     configure the argument parser
     """
-    out = ArgumentParser(description=' Automatically change your wallpaper folder on KDE desktop')
-    out.add_argument('-c', '--check', help='check configuration file, without run the theme changer',
-                     default=False, action='store_true')
+    out = ArgumentParser(
+        description='Automatically change your wallpaper folder on KDE desktop')
+    out.add_argument(
+        '-c', '--check', help='check configuration file, without run the theme changer',
+        default=False, action='store_true')
+
+    out.add_argument(
+        '-d', '--dry', help='execute a dry run: simply print out current theme without change it',
+        default=False, action='store_true'
+    )
 
     return out
 
@@ -205,7 +229,7 @@ def run_check():
         check_config(config, print)
 
 
-def run_theme_changer():
+def run_theme_changer(dry=False):
     """
     run the check of the configuration file
     and change theme, if needed
@@ -217,7 +241,10 @@ def run_theme_changer():
     config = load_config()
     if check_config(config, log):
         dir_path, theme = run_config(config)
-        change_theme(dir_path, theme, log)
+        if dry:
+            print(dir_path, theme)
+        else:
+            change_theme(dir_path, theme, log)
     else:
         log('theme_changer.py configuration file[%s] contains errors' % DEF_CONF_FILE)
 
@@ -233,9 +260,8 @@ def main():
     if args.check:
         run_check()
     else:
-        run_theme_changer()
+        run_theme_changer(args.dry)
 
 
 if __name__ == '__main__':
     main()
-
