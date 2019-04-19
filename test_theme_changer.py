@@ -18,7 +18,7 @@
 """
 Test for theme_changer.py
 """
-import os
+from os import getcwd, mkdir
 from os.path import isdir, isfile
 
 from shutil import copyfile
@@ -118,7 +118,7 @@ def make_correct_rand_season():
     conf = {}
     conf['from'] = rand_date()
     conf['to'] = rand_date()
-    conf['dir'] = os.getcwd()
+    conf['dir'] = getcwd()
     return conf
 
 
@@ -138,7 +138,7 @@ def make_wrong_rand_season():
         conf['to'] = rand_str()
 
     if random() < 0.5:
-        conf['dir'] = os.getcwd()
+        conf['dir'] = getcwd()
     else:
         conf['dir'] = rand_str()
 
@@ -160,7 +160,7 @@ def make_config(callback):
         out[name] = callback()
 
     out['default'] = {
-        'dir' : os.getcwd()
+        'dir' : getcwd()
     }
 
     return out
@@ -187,7 +187,7 @@ def test_load_config():
     """
 
     if not isdir(DEF_CONF_DIR):
-        os.mkdir(DEF_CONF_DIR)
+        mkdir(DEF_CONF_DIR)
 
     if not isfile(DEF_CONF_FILE):
         copyfile('config.yml', DEF_CONF_FILE)
