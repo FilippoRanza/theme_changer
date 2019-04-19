@@ -19,8 +19,6 @@
 Automatically change your wallpaper folder on KDE desktop
 """
 
-
-
 import os
 from os import path
 
