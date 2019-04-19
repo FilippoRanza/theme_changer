@@ -56,7 +56,6 @@ class Config:
         self._set_year_()
 
 
-
     def _set_year_(self):
         """
         set the correct year to
