@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b91807bc0aa840ca9115ccc745f500c5)](https://app.codacy.com/app/FilippoRanza/theme_changer?utm_source=github.com&utm_medium=referral&utm_content=FilippoRanza/theme_changer&utm_campaign=Badge_Grade_Settings)
 # theme_changer.py [![Build Status](https://travis-ci.com/FilippoRanza/theme_changer.svg?branch=master)](https://travis-ci.com/FilippoRanza/theme_changer)
 Automatically change your wallpaper folder on KDE desktop 
 
