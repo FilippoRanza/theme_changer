@@ -68,6 +68,7 @@ class Config:
             self.end_date = self.end_date.replace(year=year)
         self.start_date = self.start_date.replace(year=year)
 
+
     def inside_range(self, date):
         """
         check the given date is inside [start_date, end_date]
